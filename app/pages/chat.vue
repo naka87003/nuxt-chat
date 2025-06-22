@@ -1,8 +1,16 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: false,
+const { chat, messages, sendMessage } = useChat();
+const appConfig = useAppConfig();
+
+const title = computed(() =>
+  chat.value?.title
+    ? `${chat.value.title} - ${appConfig.title}`
+    : appConfig.title
+);
+useHead({
+  title,
 });
 </script>
 <template>
-  <h1>This is a chat</h1>
+  <ChatWindow :messages :chat @send-message="sendMessage" />
 </template>

@@ -7,4 +7,13 @@ export default defineNuxtConfig({
   },
   css: ["~/assets/css/main.css"],
   modules: ["@nuxt/eslint", "@nuxt/test-utils", "@nuxt/ui"],
+  // imports: {
+  //   scan: false,
+  // },
+  runtimeConfig: {
+    openaiApiKey: "",
+    public: {
+      // someValue: "on the frontend!",
+    },
+  },
 });
