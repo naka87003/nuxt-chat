@@ -5,5 +5,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ["@nuxt/eslint", "@nuxt/test-utils"],
+  runtimeConfig: {
+    openaiApiKey: "",
+  },
 });

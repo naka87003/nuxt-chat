@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ChatMessage, Chat } from "../types";
-import MarkdownRenderer from "./MarkdownRenderer.vue";
 
 const props = defineProps<{
   messages: ChatMessage[];
@@ -74,6 +73,7 @@ watch(() => props.messages, pinToBottom, { deep: true });
 .scroll-container {
   overflow-y: auto;
   height: 100%;
+  width: 100%;
   box-sizing: border-box;
 }
 
