@@ -1,4 +1,4 @@
-import type { Chat } from "../../../../app/types";
+import type { Chat } from "../../../chat/shared/types/types";
 
 export function isWithinDays(date: Date, days: number): boolean {
   const now = new Date();

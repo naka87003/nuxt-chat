@@ -2,6 +2,8 @@ export type ChatMessage = {
   id: string;
   role: "user" | "assistant";
   content: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Chat = {
@@ -16,4 +18,10 @@ export type Chat = {
 export type Project = {
   id: string;
   name: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
+
+export type ChatWithProject = {
+  project: Project | null;
+} & Chat;
