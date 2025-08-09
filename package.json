@@ -23,7 +23,7 @@
     "husky": "^9.1.7",
     "nuxt": "^4.0.2",
     "ollama-ai-provider": "1.2.0",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "uuid": "^11.1.0",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
@@ -31,5 +31,6 @@
   "devDependencies": {
     "@nuxtjs/mdc": "^0.17.2",
     "css-select": "6.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }

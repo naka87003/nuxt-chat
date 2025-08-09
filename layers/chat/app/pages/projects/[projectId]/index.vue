@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const route = useRoute()
-const projectId = route.params.projectId as string
+const route = useRoute();
+const projectId = route.params.projectId as string;
 
-const { chatsInProject } = useChats()
+const { chatsInProject } = useChats();
 
-const chats = chatsInProject(projectId)
+const chats = computed(() => chatsInProject(projectId));
 </script>
 
 <template>
@@ -21,17 +21,14 @@ const chats = chatsInProject(projectId)
         <UCard class="h-full">
           <template #header>
             <h3 class="text-md font-medium">
-              {{ chat.title || 'Untitled Chat' }}
+              {{ chat.title || "Untitled Chat" }}
             </h3>
           </template>
           <p
             v-if="chat.messages?.length"
             class="text-sm line-clamp-2 text-(--ui-text-dimmed)"
           >
-            {{
-              chat.messages[chat.messages.length - 1]
-                ?.content
-            }}
+            {{ chat.messages[chat.messages.length - 1]?.content }}
           </p>
         </UCard>
       </NuxtLink>

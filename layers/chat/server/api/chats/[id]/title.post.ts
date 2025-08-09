@@ -7,7 +7,6 @@ import {
 export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event);
   const { message } = await readBody(event);
-
   const openApiKey = useRuntimeConfig().openaiApiKey;
   const openaiModel = createOpenAiModel(openApiKey);
 
