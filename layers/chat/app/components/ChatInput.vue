@@ -1,54 +1,73 @@
 <script setup lang="ts">
 const { isStreaming = false } = defineProps<{
-  isStreaming?: boolean
-}>()
+  isStreaming?: boolean;
+}>();
 
 const emit = defineEmits<{
-  (e: 'send-message', message: string): void
-}>()
+  (e: "send-message", message: string): void;
+}>();
 
-const textareaRef = useTemplateRef('textareaRef')
-const newMessage = ref('')
+const textareaRef = useTemplateRef("textareaRef");
+const newMessage = ref("");
 
 const handleSendMessage = () => {
-  if (!newMessage.value.trim() || isStreaming) return
-  emit('send-message', newMessage.value.trim())
-  newMessage.value = ''
+  if (!newMessage.value.trim() || isStreaming) return;
+  emit("send-message", newMessage.value.trim());
+  newMessage.value = "";
 
   nextTick(() => {
-    adjustTextareaHeight()
-    textareaRef.value?.focus()
-  })
-}
+    adjustTextareaHeight();
+    textareaRef.value?.focus();
+  });
+};
 
 const adjustTextareaHeight = async (): Promise<void> => {
   if (textareaRef.value) {
-    textareaRef.value.style.height = 'auto'
-    await nextTick()
-    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`
+    textareaRef.value.style.height = "auto";
+    await nextTick();
+    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
   }
-}
+};
 
 onMounted(() => {
-  textareaRef.value?.focus()
-})
+  textareaRef.value?.focus();
+});
 
 watch(
   () => isStreaming,
   async (value: boolean) => {
     if (!value) {
-      await nextTick()
-      textareaRef.value?.focus()
+      await nextTick();
+      textareaRef.value?.focus();
     }
   }
-)
+);
+
+// 日本語入力対応
+/** IME変換中かどうか */
+const isComposing = ref(false);
+/** IME変換開始 */
+function onCompositionStart() {
+  isComposing.value = true;
+}
+/** IME変換確定 */
+function onCompositionEnd() {
+  isComposing.value = false;
+}
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === "Enter" && !isComposing.value) {
+    if (!event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
+    }
+    // Shiftキーを押している場合は改行される
+  }
+}
 </script>
 
 <template>
-  <form
-    class="message-form-wrapper"
-    @submit.prevent="handleSendMessage"
-  >
+  <form class="message-form-wrapper" @submit.prevent="handleSendMessage">
     <textarea
       ref="textareaRef"
       v-model="newMessage"
@@ -56,7 +75,9 @@ watch(
       :disabled="isStreaming"
       :rows="1"
       @input="adjustTextareaHeight"
-      @keydown.enter.prevent="handleSendMessage"
+      @compositionstart="onCompositionStart"
+      @compositionend="onCompositionEnd"
+      @keydown="onKeydown"
     />
     <UButton
       type="submit"
