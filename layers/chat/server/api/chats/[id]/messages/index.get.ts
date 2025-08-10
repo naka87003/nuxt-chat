@@ -1,7 +1,7 @@
-import { getMessagesByChatId } from '../../../../repository/chatRepository'
+import { getMessagesByChatId } from "../../../../repository/chatRepository";
 
 export default defineEventHandler(async (event) => {
-  const { id } = getRouterParams(event)
-  const messages = await getMessagesByChatId(id)
-  return messages
-})
+  const { id } = getRouterParams(event);
+  const messages = getMessagesByChatId(id);
+  return messages;
+});
