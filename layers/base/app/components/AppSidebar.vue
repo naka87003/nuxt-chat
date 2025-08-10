@@ -52,7 +52,7 @@ const projectItems = computed<NavigationMenuItem[]>(() =>
 );
 
 async function handleCreateProject() {
-  const newProject = createProject();
+  const newProject = await createProject();
   await createChatAndNavigate({
     projectId: newProject.id,
   });
