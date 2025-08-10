@@ -43,7 +43,10 @@ watch(() => props.messages, pinToBottom, { deep: true });
             }"
           >
             <div class="message-contenet">
-              <MarkdownRenderer :content="message.content" />
+              <MarkdownRenderer
+                :content="message.content"
+                :role="message.role"
+              />
             </div>
           </div>
           <span v-if="typing" class="typing-indicator"> &#9611; </span>
@@ -69,6 +72,10 @@ watch(() => props.messages, pinToBottom, { deep: true });
 <style scoped>
 /* ===== Layout & Container Styles ===== */
 .scroll-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  height: calc(100% - 4rem); /* Account for AppHeader */
   overflow-y: auto;
   width: 100%;
   box-sizing: border-box;
