@@ -43,27 +43,8 @@ watch(
   }
 );
 
-// 日本語入力対応
-/** IME変換中かどうか */
-const isComposing = ref(false);
-/** IME変換開始 */
-function onCompositionStart() {
-  isComposing.value = true;
-}
-/** IME変換確定 */
-function onCompositionEnd() {
-  isComposing.value = false;
-}
-
-function onKeydown(event: KeyboardEvent) {
-  if (event.key === "Enter" && !isComposing.value) {
-    if (!event.shiftKey) {
-      event.preventDefault();
-      handleSendMessage();
-    }
-    // Shiftキーを押している場合は改行される
-  }
-}
+const { onCompositionStart, onCompositionEnd, onKeydown } =
+  useComposition(handleSendMessage);
 </script>
 
 <template>

@@ -30,7 +30,6 @@ function cancelEditing() {
 async function handleRename() {
   if (!editedName.value.trim() || !project.value) return;
   if (editedName.value.trim() === project.value.name) return;
-
   isEditing.value = false;
   try {
     await updateProject({ name: editedName.value.trim() });
@@ -46,6 +45,9 @@ async function handleNewChat() {
     console.error("Failed to create new chat:", error);
   }
 }
+
+const { onCompositionStart, onCompositionEnd, onKeydown } =
+  useComposition(handleRename);
 </script>
 
 <template>
@@ -72,7 +74,9 @@ async function handleNewChat() {
               class="title-input"
               size="lg"
               autofocus
-              @keyup.enter="handleRename"
+              @compositionstart="onCompositionStart"
+              @compositionend="onCompositionEnd"
+              @keydown="onKeydown"
               @keyup.esc="cancelEditing"
             />
             <div class="edit-actions">
