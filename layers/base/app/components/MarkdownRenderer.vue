@@ -1,15 +1,21 @@
 <script setup lang="ts">
-defineProps<{ content: string }>();
+import { marked } from "marked";
+const props = defineProps<{ content: string; role: "user" | "assistant" }>();
+
+const htmlContent = computed(() =>
+  props.role === "user" ? marked(props.content || "") : props.content
+);
 </script>
 
 <template>
-  <MDC :value="content" class="markdown-content" />
+  <MDC :value="htmlContent" class="markdown-content" />
 </template>
 
 <style>
 .markdown-content {
   font-size: 1rem;
   line-height: 1.5rem;
+  white-space: pre-wrap;
 }
 
 .markdown-content p {
@@ -51,7 +57,7 @@ defineProps<{ content: string }>();
 
 .markdown-content pre {
   font-size: 0.875rem;
-  background-color: var(--ui-bg-inverted);
+  background-color: var(--ui-bg-muted);
   color: var(--color-white);
   padding: 1rem;
   border-radius: var(--ui-radius);
