@@ -23,7 +23,6 @@
     "husky": "^9.1.7",
     "marked": "^16.1.2",
     "nuxt": "^4.0.2",
-    "ollama-ai-provider": "1.2.0",
     "typescript": "^5.9.2",
     "uuid": "^11.1.0",
     "vue": "^3.5.18",
