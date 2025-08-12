@@ -1,16 +1,25 @@
 import { updateChat } from "../../../repository/chatRepository";
 import {
-  createOpenAiModel,
+  createOpenAIModel,
   generateChatTitle,
-} from "../../../service/ai-service";
+} from "../../../services/ai-service";
+import { UpdateChatTitleSchema } from "../../../schemas";
 
 export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event);
-  const { message } = await readBody(event);
-  const openApiKey = useRuntimeConfig().openaiApiKey;
-  const openaiModel = createOpenAiModel(openApiKey);
 
-  const title = await generateChatTitle(openaiModel, message);
+  const { success, data } = await readValidatedBody(
+    event,
+    UpdateChatTitleSchema.safeParse
+  );
+
+  if (!success) {
+    setResponseStatus(event, 400, "Bad Request");
+    return "Bad Request";
+  }
+
+  const model = createOpenAIModel(useRuntimeConfig().openaiApiKey);
+  const title = await generateChatTitle(model, data.message);
 
   return updateChat(id, { title });
 });

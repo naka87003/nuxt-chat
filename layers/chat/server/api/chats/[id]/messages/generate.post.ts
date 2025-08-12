@@ -3,15 +3,15 @@ import {
   createMessageForChat,
 } from "../../../../repository/chatRepository";
 import {
-  createOpenAiModel,
+  createOpenAIModel,
   generateChatResponse,
-} from "../../../../service/ai-service";
+} from "../../../../services/ai-service";
 
 export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event);
-  const history = getMessagesByChatId(id);
+  const history = await getMessagesByChatId(id);
 
-  const openai = createOpenAiModel(useRuntimeConfig().openaiApiKey);
+  const openai = createOpenAIModel(useRuntimeConfig().openaiApiKey);
 
   const reply = await generateChatResponse(openai, history);
 
