@@ -6,13 +6,19 @@ export default defineEventHandler(async (event) => {
     event,
     CreateChatSchema.safeParse
   );
+
   if (!success) {
-    setResponseStatus(event, 400, "Bad Request");
-    return "Bad Request";
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad Request",
+    });
   }
+
   const { title, projectId } = data;
+
   const storage = useStorage("db");
   await storage.setItem("chats:has-new-chat", true);
+
   return createChat({
     title,
     projectId,

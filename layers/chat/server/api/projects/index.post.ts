@@ -8,8 +8,10 @@ export default defineEventHandler(async (event) => {
   );
 
   if (!success) {
-    setResponseStatus(event, 400, "Bad Request");
-    return "Bad Request";
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad Request",
+    });
   }
 
   return createProject(data);

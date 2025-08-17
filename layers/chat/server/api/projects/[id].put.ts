@@ -13,11 +13,18 @@ export default defineEventHandler(async (event) => {
   );
 
   const project = await getProjectById(id);
-  if (!project) return 404;
+  if (!project) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: "Project not found",
+    });
+  }
 
   if (!success) {
-    setResponseStatus(event, 400, "Bad Request");
-    return "Bad Request";
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad Request",
+    });
   }
 
   return updateProject(id, data);
