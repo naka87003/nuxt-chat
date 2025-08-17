@@ -4,53 +4,43 @@ import { z } from "zod";
 const MessageRole = z.enum(["user", "assistant"]);
 
 // Base message schema
-export const MessageSchema = z
-  .object({
-    content: z.string(),
-    role: MessageRole,
-    id: z.uuid().optional(),
-    chatId: z.uuid().optional(),
-  })
-  .strict();
+export const MessageSchema = z.strictObject({
+  content: z.string(),
+  role: MessageRole,
+  id: z.uuid().optional(),
+  chatId: z.uuid().optional(),
+});
 
 // Chat and message related schemas
-export const ChatMessageSchema = z
-  .object({
-    messages: z.array(MessageSchema),
-    chatId: z.uuid(),
-  })
-  .strict();
+export const ChatMessageSchema = z.strictObject({
+  messages: z.array(MessageSchema),
+  chatId: z.uuid(),
+});
 
-export const CreateMessageSchema = z
-  .object({
-    content: z.string().min(1),
-    role: MessageRole,
-  })
-  .strict();
+export const CreateMessageSchema = z.strictObject({
+  content: z.string().min(1),
+  role: MessageRole,
+});
 
 // Project related schemas
-export const CreateProjectSchema = z
-  .object({
-    name: z.string().min(1),
-  })
-  .strict();
+export const CreateProjectSchema = z.strictObject({
+  name: z.string().min(1),
+});
 
-export const UpdateProjectSchema = z
-  .object({
-    name: z.string().min(1),
-  })
-  .strict();
+export const UpdateProjectSchema = z.strictObject({
+  name: z.string().min(1),
+});
 
 // Chat related schemas
-export const CreateChatSchema = z
-  .object({
-    title: z.string().min(1).optional(),
-    projectId: z.uuid().optional(),
-  })
-  .strict();
+export const CreateChatSchema = z.strictObject({
+  title: z.string().min(1).optional(),
+  projectId: z.uuid().optional(),
+});
 
-export const UpdateChatTitleSchema = z
-  .object({
-    message: z.string().min(1),
-  })
-  .strict();
+export const UpdateChatTitleSchema = z.strictObject({
+  message: z.string().min(1),
+});
+
+export const UpdateChatSchema = z.strictObject({
+  projectId: z.uuid(),
+});
