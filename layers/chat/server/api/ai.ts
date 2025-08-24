@@ -2,12 +2,12 @@ import {
   createOpenAIModel,
   generateChatResponse,
 } from "../services/ai-service";
-import { ChatMessageSchema } from "../schemas";
+import { MessageSchema } from "../schemas";
 
 export default defineEventHandler(async (event) => {
   const { success, data } = await readValidatedBody(
     event,
-    ChatMessageSchema.safeParse
+    MessageSchema.safeParse
   );
 
   if (!success) {
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const { messages } = data as {
-    messages: ChatMessage[];
+    messages: Message[];
     chatId: string;
   };
 

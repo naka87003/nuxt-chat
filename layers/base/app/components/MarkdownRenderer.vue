@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { marked } from "marked";
-const props = defineProps<{ content: string; role: "user" | "assistant" }>();
+const props = defineProps<{
+  content: string;
+  role: "user" | "assistant";
+  cacheKey: string;
+}>();
 
 const htmlContent = computed(() =>
   props.role === "user" ? marked(props.content || "") : props.content
@@ -8,7 +12,7 @@ const htmlContent = computed(() =>
 </script>
 
 <template>
-  <MDC :value="htmlContent" class="markdown-content" />
+  <MDC :cache-key="cacheKey" :value="htmlContent" class="markdown-content" />
 </template>
 
 <style>

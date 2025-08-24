@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  messages: ChatMessage[];
+  messages: Message[];
   chat: Chat;
   typing: boolean;
 }>();
@@ -67,6 +67,7 @@ function closeAssignModal() {
           >
             <div class="message-contenet">
               <MarkdownRenderer
+                :cache-key="message.id"
                 :content="message.content"
                 :role="message.role"
               />
