@@ -1,6 +1,6 @@
 export default function useChats() {
-  const chats = useState<Chat[]>("chats", () => []);
-  const { data, execute, status } = useFetch<Chat[]>("/api/chats", {
+  const chats = useState<ChatWithMessages[]>("chats", () => []);
+  const { data, execute, status } = useFetch<ChatWithMessages[]>("/api/chats", {
     immediate: false,
     default: () => [],
   });
@@ -23,7 +23,7 @@ export default function useChats() {
       recentChats.map(async (chat) => {
         try {
           console.log(`Prefetching ${chat.title}`);
-          const messages = await $fetch<ChatMessage[]>(
+          const messages = await $fetch<Message[]>(
             `/api/chats/${chat.id}/messages`
           );
 
@@ -42,7 +42,7 @@ export default function useChats() {
   async function createChat(
     options: { projectId?: string; title?: string } = {}
   ) {
-    const newChat = await $fetch<Chat>("/api/chats", {
+    const newChat = await $fetch<ChatWithMessages>("/api/chats", {
       method: "POST",
       body: {
         title: options.title,

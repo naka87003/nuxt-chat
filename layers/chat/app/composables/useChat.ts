@@ -52,6 +52,7 @@ export default function useChat(chatId: string) {
       id: `optimistic-user-message-${Date.now()}`,
       role: "user",
       content: message,
+      chatId,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -83,6 +84,7 @@ export default function useChat(chatId: string) {
       id: `streaming-message-${Date.now()}`,
       role: "assistant",
       content: "",
+      chatId,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
