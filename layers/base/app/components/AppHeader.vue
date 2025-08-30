@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ProfileMenu from "~~/layers/auth/app/components/ProfileMenu.vue";
+
 const emit = defineEmits<{
   "toggle-sidebar": [];
 }>();
@@ -29,7 +31,7 @@ function handleToggleSidebar() {
       {{ appConfig.title }}
     </div>
     <div class="header-right">
-      <!-- Nothing to see here! -->
+      <ProfileMenu />
     </div>
   </header>
 </template>
