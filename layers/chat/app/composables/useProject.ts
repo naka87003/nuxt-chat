@@ -5,12 +5,11 @@ export default function useProject(projectId: string) {
     projects.value.find((p) => p.id === projectId)
   );
 
-  function updateProjectInList(updateData: Partial<Project>) {
+  function updateProjectInList(updatedData: Partial<Project>) {
     if (!project.value) return;
 
-    // Merge with existing to update in our data store
     projects.value = projects.value.map((p) =>
-      p.id === projectId ? { ...p, ...updateData } : p
+      p.id === projectId ? { ...p, ...updatedData } : p
     );
   }
 
@@ -18,12 +17,12 @@ export default function useProject(projectId: string) {
     if (!project.value) return;
 
     const originalProject = { ...project.value };
-
     updateProjectInList(updatedProject);
 
     try {
       const response = await $fetch<Project>(`/api/projects/${projectId}`, {
         method: "PUT",
+        headers: useRequestHeaders(["cookie"]),
         body: {
           ...updatedProject,
         },

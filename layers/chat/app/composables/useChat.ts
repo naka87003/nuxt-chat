@@ -9,12 +9,15 @@ export default function useChat(chatId: string) {
     {
       default: () => [],
       immediate: false,
+      headers: useRequestHeaders(["cookie"]),
     }
   );
 
   async function fetchMessages({
     refresh = false,
-  }: { refresh?: boolean } = {}) {
+  }: {
+    refresh?: boolean;
+  } = {}) {
     const hasExistingMessages = messages.value.length > 1;
     const isRequestInProgress = status.value !== "idle";
     const shouldSkipDueToExistingState =
@@ -24,21 +27,21 @@ export default function useChat(chatId: string) {
       return;
     }
 
-    console.log("Fetch chats", chat.value.title);
-
     await execute();
     chat.value.messages = data.value;
   }
 
   async function generateChatTitle(message: string) {
     if (!chat.value) return;
-    const updateChat = await $fetch<Chat>(`/api/chats/${chatId}/title`, {
+
+    const updatedChat = await $fetch<Chat>(`/api/chats/${chatId}/title`, {
       method: "POST",
+      headers: useRequestHeaders(["cookie"]),
       body: {
         message,
       },
     });
-    chat.value.title = updateChat.title;
+    chat.value.title = updatedChat.title;
   }
 
   async function sendMessage(message: string) {
@@ -52,21 +55,20 @@ export default function useChat(chatId: string) {
       id: `optimistic-user-message-${Date.now()}`,
       role: "user",
       content: message,
-      chatId,
       createdAt: new Date(),
       updatedAt: new Date(),
+      chatId,
     };
-
     messages.value.push(optimisticUserMessage);
 
     const userMessageIndex = messages.value.length - 1;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       const newMessage = await $fetch<Message>(
         `/api/chats/${chatId}/messages`,
         {
           method: "POST",
+          headers: useRequestHeaders(["cookie"]),
           body: {
             content: message,
             role: "user",
@@ -84,44 +86,42 @@ export default function useChat(chatId: string) {
       id: `streaming-message-${Date.now()}`,
       role: "assistant",
       content: "",
-      chatId,
       createdAt: new Date(),
       updatedAt: new Date(),
+      chatId,
     });
+    const lastMessage = messages.value[messages.value.length - 1] as Message;
 
-    const lastMessage = messages.value.at(-1);
+    try {
+      const response = await $fetch<ReadableStream>(
+        `/api/chats/${chatId}/messages/stream`,
+        {
+          method: "POST",
+          responseType: "stream",
+          headers: useRequestHeaders(["cookie"]),
+          body: {
+            messages: messages.value,
+          },
+        }
+      );
 
-    if (lastMessage) {
-      try {
-        const response = await $fetch<ReadableStream>(
-          `/api/chats/${chatId}/messages/stream`,
-          {
-            method: "POST",
-            responseType: "stream",
-            body: {
-              messages: messages.value,
-            },
+      const decodedStream = response.pipeThrough(new TextDecoderStream());
+
+      const reader = decodedStream.getReader();
+      await reader
+        .read()
+        .then(function processText({ done, value }): Promise<void> | void {
+          if (done) {
+            return;
           }
-        );
-        const reader = response
-          .pipeThrough(new TextDecoderStream())
-          .getReader();
 
-        await reader
-          .read()
-          .then(function processText({ done, value }): Promise<void> | void {
-            if (done) {
-              return;
-            }
-
-            lastMessage.content += value;
-            return reader.read().then(processText);
-          });
-      } catch (error) {
-        console.error("Error streaming message:", error);
-      } finally {
-        await fetchMessages({ refresh: true });
-      }
+          lastMessage.content += value;
+          return reader.read().then(processText);
+        });
+    } catch (error) {
+      console.error("Error streaming message:", error);
+    } finally {
+      await fetchMessages({ refresh: true });
     }
 
     chat.value.updatedAt = new Date();
@@ -133,11 +133,12 @@ export default function useChat(chatId: string) {
     const originalProjectId = chat.value.projectId;
 
     // Optimistically update the chat
-    chat.value.projectId = projectId;
+    chat.value.projectId = projectId || null;
 
     try {
       const updatedChat = await $fetch<Chat>(`/api/chats/${chatId}`, {
         method: "PUT",
+        headers: useRequestHeaders(["cookie"]),
         body: {
           projectId,
         },
@@ -151,9 +152,9 @@ export default function useChat(chatId: string) {
       }
     } catch (error) {
       console.error("Error assigning chat to project", error);
-
       // Revert optimistic update
       chat.value.projectId = originalProjectId;
+      throw error;
     }
   }
 

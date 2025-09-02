@@ -1,53 +1,55 @@
 <script setup lang="ts">
-const route = useRoute();
-const projectId = route.params.projectId as string;
+definePageMeta({
+  middleware: 'auth'
+})
 
-const { project, updateProject } = useProject(projectId);
-const { createChatAndNavigate } = useChats();
+const route = useRoute()
+const projectId = route.params.projectId as string
+
+const { project, updateProject } = useProject(projectId)
+const { createChatAndNavigate } = useChats()
 
 if (!project.value) {
-  await navigateTo("/", {
+  await navigateTo('/', {
     replace: true,
-  });
+  })
 }
 
-const onChatPage = computed(() => route.params.id);
-const isEditing = ref(false);
-const editedName = ref("");
+const onChatPage = computed(() => route.params.id)
+const isEditing = ref(false)
+const editedName = ref('')
 
 function startEditing() {
-  if (!project.value || onChatPage.value) return;
+  if (!project.value || onChatPage.value) return
 
-  editedName.value = project.value.name;
-  isEditing.value = true;
+  editedName.value = project.value.name
+  isEditing.value = true
 }
 
 function cancelEditing() {
-  isEditing.value = false;
-  editedName.value = "";
+  isEditing.value = false
+  editedName.value = ''
 }
 
 async function handleRename() {
-  if (!editedName.value.trim() || !project.value) return;
-  if (editedName.value.trim() === project.value.name) return;
-  isEditing.value = false;
+  if (!editedName.value.trim() || !project.value) return
+  if (editedName.value.trim() === project.value.name) return
+
+  isEditing.value = false
   try {
-    await updateProject({ name: editedName.value.trim() });
+    await updateProject({ name: editedName.value.trim() })
   } catch (error) {
-    console.error("Failed to rename project:", error);
+    console.error('Failed to rename project:', error)
   }
 }
 
 async function handleNewChat() {
   try {
-    await createChatAndNavigate({ projectId });
+    await createChatAndNavigate({ projectId })
   } catch (error) {
-    console.error("Failed to create new chat:", error);
+    console.error('Failed to create new chat:', error)
   }
 }
-
-const { onCompositionStart, onCompositionEnd, onKeydown } =
-  useComposition(handleRename);
 </script>
 
 <template>
@@ -74,9 +76,7 @@ const { onCompositionStart, onCompositionEnd, onKeydown } =
               class="title-input"
               size="lg"
               autofocus
-              @compositionstart="onCompositionStart"
-              @compositionend="onCompositionEnd"
-              @keydown="onKeydown"
+              @keyup.enter="handleRename"
               @keyup.esc="cancelEditing"
             />
             <div class="edit-actions">
@@ -103,14 +103,22 @@ const { onCompositionStart, onCompositionEnd, onKeydown } =
           :to="`/projects/${projectId}`"
           class="leading-4 flex items-center mt-1 text-sm text-(--ui-text-muted)"
         >
-          <UIcon name="i-heroicons-arrow-left" class="mr-1" />
+          <UIcon
+            name="i-heroicons-arrow-left"
+            class="mr-1"
+          />
           Back to Project
         </NuxtLink>
       </div>
-      <UButton color="primary" icon="i-heroicons-plus" @click="handleNewChat">
+      <UButton
+        color="primary"
+        icon="i-heroicons-plus"
+        @click="handleNewChat"
+      >
         New Chat in Project
       </UButton>
     </div>
+
     <NuxtPage />
   </div>
 </template>

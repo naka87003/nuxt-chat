@@ -6,8 +6,17 @@ definePageMeta({
 const appConfig = useAppConfig();
 
 const { createChatAndNavigate } = useChats();
+const { isAuthenticated } = useAuth();
 async function handleCreateChat() {
-  await createChatAndNavigate();
+  try {
+    if (!isAuthenticated.value) {
+      await navigateTo("/login");
+      return;
+    }
+    await createChatAndNavigate();
+  } catch {
+    await navigateTo("/login");
+  }
 }
 </script>
 
