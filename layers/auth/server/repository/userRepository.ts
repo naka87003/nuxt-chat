@@ -1,5 +1,6 @@
 import type { GitHubUser } from "../../shared/types/types";
 import prisma from "../../../base/server/utils/prisma";
+import { seedDemoDataForUser } from "./seedRepository";
 
 export async function findUserByProviderId(providerId: string) {
   return await prisma.user.findUnique({
@@ -27,6 +28,12 @@ export async function findOrCreateUser(githubUser: GitHubUser) {
   if (!user) {
     // Create new user if not found
     user = await createUserFromGitHub(githubUser);
+
+    try {
+      await seedDemoDataForUser(user.id);
+    } catch (error) {
+      console.error("Cound not seed demo data for user:", error);
+    }
   }
 
   return user;
