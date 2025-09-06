@@ -92,35 +92,37 @@ async function handleCreateChat() {
 
 <template>
   <aside
-    class="fixed top-16 left-0 bottom-0 w-64 transition-transform duration-300 z-40 bg-(--ui-bg-muted) border-r-(--ui-border) border-r"
+    class="fixed top-16 left-0 bottom-0 w-64 flex flex-col transition-transform duration-300 z-40 bg-(--ui-bg-muted) border-r-(--ui-border) border-r"
     :class="{ '-translate-x-full': !isOpen }"
   >
     <div
-      v-if="projectItems.length > 0"
-      class="mb-4 overflow-auto p-4 border-b border-(--ui-border)"
+      v-if="chatsWithoutProject.length > 0"
+      class="overflow-y-auto p-4 flex-1"
     >
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="text-sm font-semibold text-(--ui-text-muted)">Projects</h2>
-      </div>
-      <UNavigationMenu
-        orientation="vertical"
-        class="w-full mb-4"
-        :items="projectItems"
-        default-open
-      />
-      <UButton
-        size="sm"
-        color="neutral"
-        variant="soft"
-        icon="i-heroicons-plus-small"
-        class="mt-2 w-full"
-        @click="handleCreateProject"
+      <div
+        v-if="projectItems.length > 0"
+        class="mb-4 overflow-auto pb-4 border-b border-(--ui-border)"
       >
-        New Project
-      </UButton>
-    </div>
-
-    <div v-if="chatsWithoutProject.length > 0" class="overflow-y-auto p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h2 class="text-sm font-semibold text-(--ui-text-muted)">Projects</h2>
+        </div>
+        <UNavigationMenu
+          orientation="vertical"
+          class="w-full mb-4"
+          :items="projectItems"
+          default-open
+        />
+        <UButton
+          size="sm"
+          color="neutral"
+          variant="soft"
+          icon="i-heroicons-plus-small"
+          class="mt-2 w-full"
+          @click="handleCreateProject"
+        >
+          New Project
+        </UButton>
+      </div>
       <div v-if="todayChats.length > 0" class="mb-4">
         <div class="flex justify-between items-center mb-2">
           <h2 class="text-sm font-semibold text-(--ui-text-muted)">Today</h2>
