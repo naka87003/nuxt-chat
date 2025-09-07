@@ -108,6 +108,7 @@ const modal = ref({
       :open="modal.deleteChat"
       :chat-id="chat.id"
       @close="modal.deleteChat = false"
+      @delete="$emit('delete')"
     />
   </div>
 </template>

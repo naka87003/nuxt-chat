@@ -12,8 +12,6 @@ const {
   deleteChat,
 } = useChat(route.params.id as string);
 
-const { createChatAndNavigate } = useChats();
-
 await fetchMessages();
 
 if (!chatFromChats.value) {
@@ -40,7 +38,9 @@ const title = computed(() =>
 
 async function onDelete() {
   await deleteChat();
-  return createChatAndNavigate({ projectId: String(route.params.projectId) });
+  return navigateTo(`/projects/${route.params.projectId}`, {
+    replace: true,
+  });
 }
 
 useHead({

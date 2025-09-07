@@ -1,21 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   chatId: string;
   open: boolean;
 }>();
 
 const emit = defineEmits<{
   close: [];
+  delete: [];
 }>();
-
-const { deleteChat } = useChat(props.chatId);
-
-const { createChatAndNavigate } = useChats();
-
-async function handleDeleteChat() {
-  await createChatAndNavigate();
-  await deleteChat();
-}
 </script>
 
 <template>
@@ -33,7 +25,7 @@ async function handleDeleteChat() {
       <UButton color="neutral" variant="soft" @click="emit('close')">
         Cancel
       </UButton>
-      <UButton color="neutral" @click="handleDeleteChat"> Delete </UButton>
+      <UButton color="neutral" @click="$emit('delete')"> Delete </UButton>
     </template>
   </UModal>
 </template>

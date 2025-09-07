@@ -92,21 +92,18 @@ async function handleCreateChat() {
 
 <template>
   <aside
-    class="fixed top-16 left-0 bottom-0 w-64 flex flex-col transition-transform duration-300 z-40 bg-(--ui-bg-muted) border-r-(--ui-border) border-r"
+    class="fixed top-16 left-0 bottom-0 w-64 flex flex-col transition-transform duration-300 z-40 bg-(--ui-bg-muted) border-r-(--ui-border) border-r overflow-y-auto"
     :class="{ '-translate-x-full': !isOpen }"
   >
-    <div
-      v-if="chatsWithoutProject.length > 0"
-      class="overflow-y-auto p-4 flex-1"
-    >
-      <div class="mb-4 overflow-auto pb-4 border-b border-(--ui-border)">
+    <div class="p-4 border-b border-(--ui-border)">
+      <div class="overflow-auto">
         <div class="flex justify-between items-center mb-2">
           <h2 class="text-sm font-semibold text-(--ui-text-muted)">Projects</h2>
         </div>
         <UNavigationMenu
           v-if="projectItems.length > 0"
           orientation="vertical"
-          class="w-full mb-4"
+          class="w-full mb-3"
           :items="projectItems"
           default-open
         />
@@ -115,12 +112,14 @@ async function handleCreateChat() {
           color="neutral"
           variant="soft"
           icon="i-heroicons-plus-small"
-          class="mt-2 w-full"
+          class="w-full"
           @click="handleCreateProject"
         >
           New Project
         </UButton>
       </div>
+    </div>
+    <div class="p-4">
       <div v-if="todayChats.length > 0" class="mb-4">
         <div class="flex justify-between items-center mb-2">
           <h2 class="text-sm font-semibold text-(--ui-text-muted)">Today</h2>
@@ -170,25 +169,24 @@ async function handleCreateChat() {
           default-open
         />
       </div>
-    </div>
-    <div v-else class="overflow-y-auto p-4">
-      <UAlert
-        title="No Chats"
-        description="Create a new chat to get started."
-        color="neutral"
-        variant="soft"
-        class="mt-2"
-      />
-      <UButton
-        size="sm"
-        color="neutral"
-        variant="soft"
-        icon="i-heroicons-plus-small"
-        class="mt-2 w-full"
-        @click="handleCreateChat"
-      >
-        New Chat
-      </UButton>
+      <template v-if="chatsWithoutProject.length === 0">
+        <UAlert
+          title="No Chats"
+          description="Create a new chat to get started."
+          color="neutral"
+          variant="soft"
+        />
+        <UButton
+          size="sm"
+          color="neutral"
+          variant="soft"
+          icon="i-heroicons-plus-small"
+          class="mt-2 w-full"
+          @click="handleCreateChat"
+        >
+          New Chat
+        </UButton>
+      </template>
     </div>
   </aside>
 </template>

@@ -39,13 +39,26 @@ async function handleError() {
   await navigateTo("/", { replace: true });
 }
 
+const { deleteChat } = useChat(chat.value.id);
+
+async function onDelete() {
+  await navigateTo("/chats/");
+  await deleteChat();
+}
+
 useHead({
   title,
 });
 </script>
 <template>
   <NuxtErrorBoundary>
-    <ChatWindow :messages :chat :typing @send-message="handleSendMessage" />
+    <ChatWindow
+      :messages
+      :chat
+      :typing
+      @send-message="handleSendMessage"
+      @delete="onDelete"
+    />
     <template #error="{ error }">
       <UContainer class="flex justify-center items-center h-full p-4">
         <UCard variant="soft" class="min-w-md">

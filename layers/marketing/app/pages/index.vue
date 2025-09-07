@@ -5,7 +5,6 @@ definePageMeta({
 
 const appConfig = useAppConfig();
 
-const { createChatAndNavigate } = useChats();
 const { isAuthenticated } = useAuth();
 async function handleCreateChat() {
   try {
@@ -13,7 +12,7 @@ async function handleCreateChat() {
       await navigateTo("/login");
       return;
     }
-    await createChatAndNavigate();
+    await navigateTo("/chats/");
   } catch {
     await navigateTo("/login");
   }

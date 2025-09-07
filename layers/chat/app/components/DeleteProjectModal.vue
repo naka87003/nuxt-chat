@@ -9,13 +9,12 @@ const emit = defineEmits<{
 }>();
 
 const { deleteProject } = useProject(props.projectId);
-const { createChatAndNavigate } = useChats();
 const { refreshProjects } = useProjects();
 
 async function handleDeleteProject() {
   await deleteProject();
   await refreshProjects();
-  return createChatAndNavigate();
+  await navigateTo("/chats/");
 }
 </script>
 
