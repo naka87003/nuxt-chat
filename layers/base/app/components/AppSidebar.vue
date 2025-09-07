@@ -99,14 +99,12 @@ async function handleCreateChat() {
       v-if="chatsWithoutProject.length > 0"
       class="overflow-y-auto p-4 flex-1"
     >
-      <div
-        v-if="projectItems.length > 0"
-        class="mb-4 overflow-auto pb-4 border-b border-(--ui-border)"
-      >
+      <div class="mb-4 overflow-auto pb-4 border-b border-(--ui-border)">
         <div class="flex justify-between items-center mb-2">
           <h2 class="text-sm font-semibold text-(--ui-text-muted)">Projects</h2>
         </div>
         <UNavigationMenu
+          v-if="projectItems.length > 0"
           orientation="vertical"
           class="w-full mb-4"
           :items="projectItems"

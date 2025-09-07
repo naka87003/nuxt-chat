@@ -27,5 +27,10 @@ export default function useProjects() {
     return project;
   }
 
-  return { projects, createProject, fetchProjects };
+  async function refreshProjects() {
+    await execute();
+    projects.value = data.value || [];
+  }
+
+  return { projects, createProject, fetchProjects, refreshProjects };
 }

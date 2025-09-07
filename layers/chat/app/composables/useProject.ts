@@ -35,8 +35,21 @@ export default function useProject(projectId: string) {
     }
   }
 
+  async function deleteProject() {
+    try {
+      await $fetch(`/api/projects/${projectId}`, {
+        method: "DELETE",
+        headers: useRequestHeaders(["cookie"]),
+      });
+    } catch (error) {
+      console.error("Error delete user project", error);
+      return;
+    }
+  }
+
   return {
     project,
     updateProject,
+    deleteProject,
   };
 }

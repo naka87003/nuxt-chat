@@ -7,6 +7,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   "send-message": [message: string];
+  delete: [];
 }>();
 const { showScrollButton, scrollToBottom, pinToBottom } = useChatScroll();
 
@@ -32,6 +33,29 @@ function closeAssignModal() {
 
 <template>
   <div ref="scrollContainer" class="scroll-container">
+    <div class="flex justify-end p-1">
+      <div class="flex gap-2">
+        <UButton
+          v-if="messages?.length && !isOnProjectPage"
+          color="neutral"
+          variant="soft"
+          icon="i-heroicons-folder-plus"
+          size="sm"
+          @click="openAssignModal"
+        >
+          Assign to Project
+        </UButton>
+        <UButton
+          color="neutral"
+          variant="soft"
+          icon="i-heroicons-trash"
+          size="sm"
+          @click="$emit('delete')"
+        >
+          Delete
+        </UButton>
+      </div>
+    </div>
     <UContainer class="chat-container">
       <div v-if="!messages?.length" class="empty-state">
         <div class="empty-state-card">
@@ -44,16 +68,6 @@ function closeAssignModal() {
           <h1 class="title">
             <TypewriterText :text="chat.title || 'Untitled Chat'" />
           </h1>
-          <UButton
-            v-if="!isOnProjectPage"
-            color="neutral"
-            variant="soft"
-            icon="i-heroicons-folder-plus"
-            size="sm"
-            @click="openAssignModal"
-          >
-            Assign to Project
-          </UButton>
         </div>
         <div class="messages-container">
           <div

@@ -1,54 +1,61 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: 'auth'
-})
+  middleware: "auth",
+});
 
-const route = useRoute()
-const projectId = route.params.projectId as string
+const route = useRoute();
+const projectId = route.params.projectId as string;
 
-const { project, updateProject } = useProject(projectId)
-const { createChatAndNavigate } = useChats()
+const { project, updateProject, deleteProject } = useProject(projectId);
+const { createChatAndNavigate } = useChats();
+const { refreshProjects } = useProjects();
 
 if (!project.value) {
-  await navigateTo('/', {
+  await navigateTo("/", {
     replace: true,
-  })
+  });
 }
 
-const onChatPage = computed(() => route.params.id)
-const isEditing = ref(false)
-const editedName = ref('')
+const onChatPage = computed(() => route.params.id);
+const isEditing = ref(false);
+const editedName = ref("");
 
 function startEditing() {
-  if (!project.value || onChatPage.value) return
+  if (!project.value || onChatPage.value) return;
 
-  editedName.value = project.value.name
-  isEditing.value = true
+  editedName.value = project.value.name;
+  isEditing.value = true;
 }
 
 function cancelEditing() {
-  isEditing.value = false
-  editedName.value = ''
+  isEditing.value = false;
+  editedName.value = "";
 }
 
 async function handleRename() {
-  if (!editedName.value.trim() || !project.value) return
-  if (editedName.value.trim() === project.value.name) return
+  if (!editedName.value.trim() || !project.value) return;
+  if (editedName.value.trim() === project.value.name) return;
 
-  isEditing.value = false
+  isEditing.value = false;
   try {
-    await updateProject({ name: editedName.value.trim() })
+    await updateProject({ name: editedName.value.trim() });
   } catch (error) {
-    console.error('Failed to rename project:', error)
+    console.error("Failed to rename project:", error);
   }
 }
 
 async function handleNewChat() {
   try {
-    await createChatAndNavigate({ projectId })
+    await createChatAndNavigate({ projectId });
   } catch (error) {
-    console.error('Failed to create new chat:', error)
+    console.error("Failed to create new chat:", error);
   }
+}
+
+async function onDelete() {
+  await deleteProject();
+  await refreshProjects();
+  return createChatAndNavigate();
 }
 </script>
 
@@ -103,20 +110,23 @@ async function handleNewChat() {
           :to="`/projects/${projectId}`"
           class="leading-4 flex items-center mt-1 text-sm text-(--ui-text-muted)"
         >
-          <UIcon
-            name="i-heroicons-arrow-left"
-            class="mr-1"
-          />
+          <UIcon name="i-heroicons-arrow-left" class="mr-1" />
           Back to Project
         </NuxtLink>
       </div>
-      <UButton
-        color="primary"
-        icon="i-heroicons-plus"
-        @click="handleNewChat"
-      >
-        New Chat in Project
-      </UButton>
+      <div class="flex gap-2">
+        <UButton color="primary" icon="i-heroicons-plus" @click="handleNewChat">
+          New Chat in Project
+        </UButton>
+        <UButton
+          color="neutral"
+          variant="soft"
+          icon="i-heroicons-trash"
+          @click="onDelete"
+        >
+          Delete
+        </UButton>
+      </div>
     </div>
 
     <NuxtPage />

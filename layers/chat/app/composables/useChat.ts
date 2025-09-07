@@ -158,11 +158,26 @@ export default function useChat(chatId: string) {
     }
   }
 
+  async function deleteChat() {
+    try {
+      await $fetch(`/api/chats/${chatId}`, {
+        method: "DELETE",
+        headers: useRequestHeaders(["cookie"]),
+      });
+
+      chats.value = chats.value.filter((c) => c.id !== chatId);
+    } catch (error) {
+      console.error("Error delete user chat", error);
+      return;
+    }
+  }
+
   return {
     chat,
     messages,
     sendMessage,
     fetchMessages,
     assignToProject,
+    deleteChat,
   };
 }
