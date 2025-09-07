@@ -6,9 +6,8 @@ definePageMeta({
 const route = useRoute();
 const projectId = route.params.projectId as string;
 
-const { project, updateProject, deleteProject } = useProject(projectId);
+const { project, updateProject } = useProject(projectId);
 const { createChatAndNavigate } = useChats();
-const { refreshProjects } = useProjects();
 
 if (!project.value) {
   await navigateTo("/", {
@@ -19,6 +18,10 @@ if (!project.value) {
 const onChatPage = computed(() => route.params.id);
 const isEditing = ref(false);
 const editedName = ref("");
+
+const modal = ref({
+  deleteProject: false,
+});
 
 function startEditing() {
   if (!project.value || onChatPage.value) return;
@@ -50,12 +53,6 @@ async function handleNewChat() {
   } catch (error) {
     console.error("Failed to create new chat:", error);
   }
-}
-
-async function onDelete() {
-  await deleteProject();
-  await refreshProjects();
-  return createChatAndNavigate();
 }
 </script>
 
@@ -122,7 +119,7 @@ async function onDelete() {
           color="neutral"
           variant="soft"
           icon="i-heroicons-trash"
-          @click="onDelete"
+          @click="modal.deleteProject = true"
         >
           Delete
         </UButton>
@@ -130,6 +127,11 @@ async function onDelete() {
     </div>
 
     <NuxtPage />
+    <LazyDeleteProjectModal
+      :open="modal.deleteProject"
+      :project-id
+      @close="modal.deleteProject = false"
+    />
   </div>
 </template>
 

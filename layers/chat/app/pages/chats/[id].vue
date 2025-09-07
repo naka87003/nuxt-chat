@@ -9,10 +9,7 @@ const {
   messages,
   sendMessage,
   fetchMessages,
-  deleteChat,
 } = useChat(route.params.id as string);
-
-const { createChatAndNavigate } = useChats();
 
 await fetchMessages();
 
@@ -45,21 +42,10 @@ async function handleError() {
 useHead({
   title,
 });
-
-async function onDelete() {
-  await deleteChat();
-  return createChatAndNavigate();
-}
 </script>
 <template>
   <NuxtErrorBoundary>
-    <ChatWindow
-      :messages
-      :chat
-      :typing
-      @send-message="handleSendMessage"
-      @delete="onDelete"
-    />
+    <ChatWindow :messages :chat :typing @send-message="handleSendMessage" />
     <template #error="{ error }">
       <UContainer class="flex justify-center items-center h-full p-4">
         <UCard variant="soft" class="min-w-md">

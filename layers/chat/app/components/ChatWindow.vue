@@ -20,15 +20,10 @@ watch(() => props.messages, pinToBottom, { deep: true });
 const route = useRoute();
 const isOnProjectPage = computed(() => !!route.params.projectId);
 
-const isAssignModalOpen = ref(false);
-
-function openAssignModal() {
-  isAssignModalOpen.value = true;
-}
-
-function closeAssignModal() {
-  isAssignModalOpen.value = false;
-}
+const modal = ref({
+  assignToProject: false,
+  deleteChat: false,
+});
 </script>
 
 <template>
@@ -41,7 +36,7 @@ function closeAssignModal() {
           variant="soft"
           icon="i-heroicons-folder-plus"
           size="sm"
-          @click="openAssignModal"
+          @click="modal.assignToProject = true"
         >
           Assign to Project
         </UButton>
@@ -50,7 +45,7 @@ function closeAssignModal() {
           variant="soft"
           icon="i-heroicons-trash"
           size="sm"
-          @click="$emit('delete')"
+          @click="modal.deleteChat = true"
         >
           Delete
         </UButton>
@@ -105,9 +100,14 @@ function closeAssignModal() {
       </template>
     </UContainer>
     <LazyAssignToProjectModal
-      v-if="isAssignModalOpen"
+      :open="modal.assignToProject"
       :chat-id="chat.id"
-      @close="closeAssignModal"
+      @close="modal.assignToProject = false"
+    />
+    <LazyDeleteChatModal
+      :open="modal.deleteChat"
+      :chat-id="chat.id"
+      @close="modal.deleteChat = false"
     />
   </div>
 </template>

@@ -1,33 +1,29 @@
 <script setup lang="ts">
 const props = defineProps<{
-  chatId: string
-}>()
+  open: boolean;
+  chatId: string;
+}>();
 
 const emit = defineEmits<{
-  close: []
-}>()
+  close: [];
+}>();
 
-const { projects } = useProjects()
-const { assignToProject } = useChat(props.chatId)
+const { projects } = useProjects();
+const { assignToProject } = useChat(props.chatId);
 
 async function handleAssignToProject(projectId: string) {
   try {
-    await assignToProject(projectId)
-    await navigateTo(
-      `/projects/${projectId}/chats/${props.chatId}`
-    )
+    await assignToProject(projectId);
+    await navigateTo(`/projects/${projectId}/chats/${props.chatId}`);
   } catch (error) {
-    console.error(
-      'Failed to assign chat to project:',
-      error
-    )
+    console.error("Failed to assign chat to project:", error);
   }
 }
 </script>
 
 <template>
   <UModal
-    open
+    :open
     title="Assign to Project"
     description="Choose a project to assign this chat to."
     @update:open="emit('close')"
@@ -50,22 +46,15 @@ async function handleAssignToProject(projectId: string) {
           }}</span>
         </div>
 
-        <div
-          v-if="!projects?.length"
-          class="text-center py-8"
-        >
+        <div v-if="!projects?.length" class="text-center py-8">
           <UIcon
             name="i-heroicons-folder-plus"
             class="mx-auto h-12 w-12 text-[var(--ui-text-dimmed)]"
           />
-          <h3
-            class="mt-2 text-sm font-medium text-[var(--ui-text)]"
-          >
+          <h3 class="mt-2 text-sm font-medium text-[var(--ui-text)]">
             No projects
           </h3>
-          <p
-            class="mt-1 text-sm text-[var(--ui-text-muted)]"
-          >
+          <p class="mt-1 text-sm text-[var(--ui-text-muted)]">
             Create a project first to assign chats to it.
           </p>
         </div>
@@ -74,11 +63,7 @@ async function handleAssignToProject(projectId: string) {
 
     <template #footer>
       <div class="flex justify-end">
-        <UButton
-          color="neutral"
-          variant="soft"
-          @click="emit('close')"
-        >
+        <UButton color="neutral" variant="soft" @click="emit('close')">
           Cancel
         </UButton>
       </div>
