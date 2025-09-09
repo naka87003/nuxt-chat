@@ -1,9 +1,5 @@
-<script lang="ts">
+<script setup lang="ts">
 definePageMeta({
   middleware: "auth",
 });
 </script>
-
-<template>
-  <UContainer class="hero-section" />
-</template>
