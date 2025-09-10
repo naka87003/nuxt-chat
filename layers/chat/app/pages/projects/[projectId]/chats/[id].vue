@@ -46,6 +46,12 @@ async function onDelete() {
 useHead({
   title,
 });
+
+onBeforeUnmount(async () => {
+  if (messages.value.length === 0) {
+    await deleteChat();
+  }
+});
 </script>
 
 <template>

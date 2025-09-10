@@ -29,9 +29,9 @@ const modal = ref({
 <template>
   <div ref="scrollContainer" class="scroll-container">
     <div class="flex justify-end p-1">
-      <div class="flex gap-2">
+      <div v-if="messages?.length" class="flex gap-2">
         <UButton
-          v-if="messages?.length && !isOnProjectPage"
+          v-if="!isOnProjectPage"
           color="neutral"
           variant="soft"
           icon="i-heroicons-folder-plus"

@@ -39,15 +39,23 @@ async function handleError() {
   await navigateTo("/", { replace: true });
 }
 
+const { createChatAndNavigate } = useChats();
+
 const { deleteChat } = useChat(chat.value.id);
 
 async function onDelete() {
-  await navigateTo("/chats/");
+  await createChatAndNavigate();
   await deleteChat();
 }
 
 useHead({
   title,
+});
+
+onBeforeUnmount(async () => {
+  if (messages.value.length === 0) {
+    await deleteChat();
+  }
 });
 </script>
 <template>
