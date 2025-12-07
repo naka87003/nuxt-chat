@@ -13,31 +13,31 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.30",
-    "@nuxt/eslint": "^1.9.0",
+    "@ai-sdk/openai": "^2.0.77",
+    "@nuxt/eslint": "^1.11.0",
     "@nuxt/image": "^1.11.0",
-    "@nuxt/test-utils": "^3.19.2",
-    "@nuxt/ui": "^3.3.3",
-    "@prisma/client": "^6.16.1",
-    "ai": "^5.0.44",
+    "@nuxt/test-utils": "^3.21.0",
+    "@nuxt/ui": "^3.3.7",
+    "@prisma/client": "^6.19.0",
+    "ai": "^5.0.108",
     "dev": "^0.1.3",
-    "eslint": "^9.35.0",
+    "eslint": "^9.39.1",
     "husky": "^9.1.7",
-    "marked": "^16.3.0",
-    "nuxt": "^4.1.2",
-    "nuxt-auth-utils": "0.5.24",
-    "prisma": "^6.16.1",
-    "typescript": "^5.9.2",
+    "marked": "^16.4.2",
+    "nuxt": "^4.2.1",
+    "nuxt-auth-utils": "^0.5.25",
+    "prisma": "^6.19.0",
+    "typescript": "^5.9.3",
     "uuid": "^13.0.0",
-    "vue": "^3.5.21",
-    "vue-router": "^4.5.1",
-    "zod": "^4.1.8"
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.3",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@iconify-json/heroicons": "^1.2.2",
-    "@nuxtjs/mdc": "^0.17.4",
+    "@iconify-json/heroicons": "^1.2.3",
+    "@nuxtjs/mdc": "^0.19.1",
     "css-select": "^6.0.0",
-    "tsx": "^4.20.5"
+    "tsx": "^4.21.0"
   },
   "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }
