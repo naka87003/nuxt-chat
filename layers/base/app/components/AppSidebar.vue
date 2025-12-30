@@ -92,13 +92,13 @@ async function handleCreateChat() {
 
 <template>
   <aside
-    class="fixed top-16 left-0 bottom-0 w-64 flex flex-col transition-transform duration-300 z-40 bg-(--ui-bg-muted) border-r-(--ui-border) border-r overflow-y-auto"
+    class="fixed top-16 left-0 bottom-0 w-64 flex flex-col transition-transform duration-300 z-40 bg-muted border-r-default border-r overflow-y-auto"
     :class="{ '-translate-x-full': !isOpen }"
   >
-    <div class="p-4 border-b border-(--ui-border)">
+    <div class="p-4 border-b border-default">
       <div class="overflow-auto">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-sm font-semibold text-(--ui-text-muted)">Projects</h2>
+          <h2 class="text-sm font-semibold text-muted">Projects</h2>
         </div>
         <UNavigationMenu
           v-if="projectItems.length > 0"
@@ -122,7 +122,7 @@ async function handleCreateChat() {
     <div class="p-4">
       <div v-if="todayChats.length > 0" class="mb-4">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-sm font-semibold text-(--ui-text-muted)">Today</h2>
+          <h2 class="text-sm font-semibold text-muted">Today</h2>
         </div>
         <UNavigationMenu
           orientation="vertical"
@@ -134,9 +134,7 @@ async function handleCreateChat() {
 
       <div v-if="lastWeekChats.length > 0" class="mb-4">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-sm font-semibold text-(--ui-text-muted)">
-            Last 7 Days
-          </h2>
+          <h2 class="text-sm font-semibold text-muted">Last 7 Days</h2>
         </div>
         <UNavigationMenu
           orientation="vertical"
@@ -147,9 +145,7 @@ async function handleCreateChat() {
       </div>
       <div v-if="lanstMonthChats.length > 0" class="mb-4">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-sm font-semibold text-(--ui-text-muted)">
-            Last Month
-          </h2>
+          <h2 class="text-sm font-semibold text-muted">Last Month</h2>
         </div>
         <UNavigationMenu
           orientation="vertical"
@@ -160,7 +156,7 @@ async function handleCreateChat() {
       </div>
       <div v-if="olderChats.length > 0" class="mb-4">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-sm font-semibold text-(--ui-text-muted)">Older</h2>
+          <h2 class="text-sm font-semibold text-muted">Older</h2>
         </div>
         <UNavigationMenu
           orientation="vertical"
