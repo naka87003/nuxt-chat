@@ -39,13 +39,13 @@ async function handleError() {
   await navigateTo("/", { replace: true });
 }
 
-const { createChatAndNavigate } = useChats();
-
 const { deleteChat } = useChat(chat.value.id);
 
 async function onDelete() {
-  await createChatAndNavigate();
   await deleteChat();
+  await navigateTo("/chats", {
+    replace: true,
+  });
 }
 
 useHead({
