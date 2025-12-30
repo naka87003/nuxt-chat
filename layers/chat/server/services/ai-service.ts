@@ -1,6 +1,6 @@
 import { generateText, streamText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
-import type { Message, LanguageModelV1 } from "ai";
+import type { ModelMessage, LanguageModel } from "ai";
 
 export const createOpenAIModel = (apiKey: string) => {
   const openai = createOpenAI({
@@ -10,8 +10,8 @@ export const createOpenAIModel = (apiKey: string) => {
 };
 
 export async function generateChatResponse(
-  model: LanguageModelV1,
-  messages: Message[]
+  model: LanguageModel,
+  messages: ModelMessage[]
 ) {
   if (!Array.isArray(messages) || messages.length === 0) {
     throw new Error("Invalid messages format");
@@ -26,7 +26,7 @@ export async function generateChatResponse(
 }
 
 export async function generateChatTitle(
-  model: LanguageModelV1,
+  model: LanguageModel,
   firstMessage: string
 ): Promise<string> {
   const response = await generateText({
@@ -50,8 +50,8 @@ export async function generateChatTitle(
 }
 
 export async function streamChatResponse(
-  model: LanguageModelV1,
-  messages: Message[]
+  model: LanguageModel,
+  messages: ModelMessage[]
 ) {
   if (!Array.isArray(messages) || messages.length === 0) {
     throw new Error("Invalid messages format");
