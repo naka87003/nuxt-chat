@@ -7,8 +7,8 @@ export default function useChats() {
   });
 
   async function fetchChats(refresh = false) {
-    if (status.value !== "idle" && !refresh) return;
     console.log("status: ", status.value);
+    if (status.value !== "idle" && !refresh) return;
     await execute();
     console.log("data: ", data.value);
     chats.value = data.value || [];
