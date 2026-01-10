@@ -3,7 +3,6 @@ const { fetchChats, prefetchChatMessages } = useChats();
 const { fetchProjects } = useProjects();
 await Promise.all([fetchChats(), fetchProjects()]);
 await callOnce("prefetchChatMessages", prefetchChatMessages);
-console.log("app.vue!!!");
 </script>
 <template>
   <UApp>

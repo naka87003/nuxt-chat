@@ -1,20 +1,14 @@
 export default function useChats() {
   const chats = useState<ChatWithMessages[]>("chats", () => []);
-  const { data, execute, status, error } = useFetch<ChatWithMessages[]>(
-    "/api/chats",
-    {
-      default: () => [],
-      immediate: false,
-      headers: useRequestHeaders(["cookie"]),
-    }
-  );
+  const { data, execute, status } = useFetch<ChatWithMessages[]>("/api/chats", {
+    default: () => [],
+    immediate: false,
+    headers: useRequestHeaders(["cookie"]),
+  });
 
   async function fetchChats(refresh = false) {
-    console.log("status: ", status.value);
-    console.log("error:", error.value);
     if (status.value !== "idle" && !refresh) return;
     await execute();
-    console.log("data: ", data.value);
     chats.value = data.value || [];
   }
 
