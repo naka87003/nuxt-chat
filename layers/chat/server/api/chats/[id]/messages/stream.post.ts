@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
   const stream = await streamChatResponse(openai, history);
 
   setResponseHeaders(event, {
-    "Content-Type": "text/html",
+    "Content-Type": "text/plain; charset=utf-8",
     "Cache-Control": "no-cache",
     "Transfer-Encoding": "chunked",
   });
