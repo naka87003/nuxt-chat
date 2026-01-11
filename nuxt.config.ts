@@ -14,9 +14,8 @@ export default defineNuxtConfig({
   $production: {
     nitro: {
       storage: {
-        db: {
-          driver: "netlify-blobs",
-          name: "db",
+        storage: {
+          db: { driver: "vercelKV" },
         },
       },
     },
