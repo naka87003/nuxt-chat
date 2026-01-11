@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   $production: {
     nitro: {
       storage: {
-        db: { driver: "redis", name: "db" },
+        db: { driver: "upstash", name: "db" },
       },
     },
   },
