@@ -3,3 +3,6 @@ definePageMeta({
   middleware: "auth",
 });
 </script>
+<template>
+  <div />
+</template>
