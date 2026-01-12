@@ -28,6 +28,9 @@ const htmlContent = computed(() =>
   margin-bottom: 1rem;
 }
 
+.markdown-content p:first-child {
+  margin-top: 0;
+}
 .markdown-content p:last-child {
   margin-bottom: 0;
 }
