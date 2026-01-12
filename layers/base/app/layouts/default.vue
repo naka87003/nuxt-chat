@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const isSidebarOpen = ref(true);
+const { fetchChats, prefetchChatMessages } = useChats();
+const { fetchProjects } = useProjects();
+await Promise.all([fetchChats(), fetchProjects()]);
+await callOnce("prefetchChatMessages", prefetchChatMessages);
 </script>
 
 <template>
