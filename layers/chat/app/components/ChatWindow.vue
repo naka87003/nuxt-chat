@@ -74,7 +74,7 @@ const modal = ref({
               'message-ai': message.role === 'assistant',
             }"
           >
-            <div class="message-contenet">
+            <div class="message-content">
               <MarkdownRenderer
                 :cache-key="message.id"
                 :content="message.content"
