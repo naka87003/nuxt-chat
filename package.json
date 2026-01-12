@@ -13,18 +13,18 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.77",
+    "@ai-sdk/openai": "^3.0.7",
     "@nuxt/eslint": "^1.11.0",
-    "@nuxt/image": "^1.11.0",
+    "@nuxt/image": "^2.0.0",
     "@nuxt/test-utils": "^3.21.0",
-    "@nuxt/ui": "^3.3.7",
+    "@nuxt/ui": "^4.3.0",
     "@prisma/client": "^6.19.0",
     "@vercel/kv": "^3.0.0",
-    "ai": "^5.0.108",
+    "ai": "^6.0.27",
     "dev": "^0.1.3",
     "eslint": "^9.39.1",
     "husky": "^9.1.7",
-    "marked": "^16.4.2",
+    "marked": "^17.0.1",
     "nuxt": "^4.2.1",
     "nuxt-auth-utils": "^0.5.25",
     "prisma": "^6.19.0",
@@ -42,5 +42,5 @@
     "css-select": "^6.0.0",
     "tsx": "^4.21.0"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+  "packageManager": "pnpm@10.28.0"
 }
