@@ -6,12 +6,14 @@ definePageMeta({
 const appConfig = useAppConfig();
 
 const { isAuthenticated } = useAuth();
+const loading = ref(false);
 async function handleCreateChat() {
   try {
     if (!isAuthenticated.value) {
       await navigateTo("/login");
       return;
     }
+    loading.value = true;
     await navigateTo("/chats", {
       replace: true,
     });
@@ -37,6 +39,7 @@ async function handleCreateChat() {
         <UButton
           class="text-center font-bold self-center"
           size="xl"
+          :loading
           @click="handleCreateChat"
         >
           Start Your First Chat
@@ -63,7 +66,7 @@ async function handleCreateChat() {
               class="feature-image"
               width="200"
               densities="x1"
-              :modifiers="{ grayscale: 1 }"
+              :modifiers="{ grayscale: true }"
             />
             <h3 class="feature-title">AI-Powered Conversations</h3>
             <p class="feature-description">
@@ -145,6 +148,7 @@ async function handleCreateChat() {
             class="cta-button"
             size="xl"
             variant="outline"
+            :loading
             @click="handleCreateChat"
           >
             Create A New Chat
