@@ -6,7 +6,7 @@ export const createOpenAIModel = (apiKey: string) => {
   const openai = createOpenAI({
     apiKey,
   });
-  return openai("gpt-4o-mini");
+  return openai("gpt-5.6-terra");
 };
 
 export async function generateChatResponse(
