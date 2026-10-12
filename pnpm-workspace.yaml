@@ -6,7 +6,3 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   vue-demi: true
-
-# Keep installs reproducible from the committed lockfile without waiting for
-# newly published packages to age.
-minimumReleaseAge: 0
