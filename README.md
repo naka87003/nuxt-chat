@@ -24,7 +24,7 @@ A full-stack, authenticated chat application built with Nuxt 4. Users sign in wi
 
 ## Prerequisites
 
-- Node.js 20 or later (Node.js 22 LTS recommended)
+- Node.js 20.19 or later (Node.js 22 LTS recommended)
 - pnpm 10.28.0
 - A PostgreSQL database
 - A GitHub OAuth App
@@ -48,8 +48,12 @@ pnpm install
 Create a `.env` file in the project root:
 
 ```dotenv
-# PostgreSQL
+# PostgreSQL / Supabase
+# Runtime URL. For Vercel or another serverless host, use the Supavisor
+# transaction-pooler URL (port 6543) and append ?pgbouncer=true.
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public"
+# Prisma CLI URL. Use Supabase's direct URL, or its session-pooler URL (port 5432)
+# when the direct endpoint is unavailable from your network.
 DIRECT_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public"
 
 # nuxt-auth-utils session encryption; use a long, random value (32+ characters)
@@ -104,9 +108,12 @@ pnpm lint && pnpm typecheck && pnpm build
 ## Deployment on Vercel
 
 1. Import the repository into Vercel.
-2. Set the project Node.js version to Node.js 20 or later.
+2. Set the project Node.js version to Node.js 20.19 or later.
 3. Add the environment variables listed above for the appropriate environments. Use your production callback URL for `NUXT_OAUTH_GITHUB_CLIENT_ID` / `NUXT_OAUTH_GITHUB_CLIENT_SECRET`, and register `https://YOUR_DOMAIN/auth/github` in the GitHub OAuth App.
-4. Configure a PostgreSQL database and set `DATABASE_URL` and `DIRECT_URL`.
+4. Configure a PostgreSQL database and set `DATABASE_URL` and `DIRECT_URL`. With
+   Supabase, use the Transaction pooler URL (port `6543`, with
+   `?pgbouncer=true`) for `DATABASE_URL`, and a Direct or Session pooler URL
+   (port `5432`) for `DIRECT_URL`.
 5. Connect the Vercel KV integration required by the production Nitro storage configuration.
 6. In **Settings → Build and Deployment**, override the Build Command with:
 
