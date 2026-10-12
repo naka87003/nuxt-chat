@@ -2,7 +2,24 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/eslint", "@nuxt/test-utils", "@nuxt/image"],
+  css: ["@/assets/css/main.css"],
+  modules: [
+    "@nuxt/eslint",
+    "@nuxt/test-utils",
+    "@nuxt/image",
+    "@nuxt/ui",
+    "@nuxtjs/mdc",
+    "nuxt-auth-utils",
+  ],
+  image: {
+    domains: ["avatars.githubusercontent.com"],
+  },
+  mdc: {
+    highlight: false,
+  },
+  runtimeConfig: {
+    openaiApiKey: "",
+  },
   nitro: {
     storage: {
       db: {
@@ -14,7 +31,11 @@ export default defineNuxtConfig({
   $production: {
     nitro: {
       storage: {
-        db: { driver: "vercelKV", name: "db" },
+        db: {
+          driver: "upstash",
+          url: process.env.KV_REST_API_URL,
+          token: process.env.KV_REST_API_TOKEN,
+        },
       },
     },
   },

@@ -10,7 +10,7 @@ A full-stack, authenticated chat application built with Nuxt 4. Users sign in wi
 - Per-user chat and project management
 - OpenAI-powered response generation and streaming
 - PostgreSQL persistence through Prisma
-- Nuxt Layers for base UI, marketing, authentication, and chat concerns
+- Standard Nuxt directories for UI, authentication, and chat concerns
 - Vercel-ready production configuration
 
 ## Tech stack
@@ -119,12 +119,9 @@ This makes Vercel fail a Preview or Production deployment when linting, type che
 ## Project structure
 
 ```text
-app/                    # Root Nuxt app shell and error page
-layers/
-  base/                 # Shared layout, components, styles, and server utilities
-  marketing/            # Public landing page
-  auth/                 # GitHub OAuth, session helpers, and login UI
-  chat/                 # Chat/project pages, APIs, repositories, and AI service
+app/                    # Pages, layouts, components, composables, and styles
+server/                 # APIs, repositories, services, routes, and utilities
+shared/                 # Shared TypeScript types
 prisma/                 # Prisma schema and migrations
 public/                 # Static assets
 ```
