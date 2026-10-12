@@ -1,8 +1,12 @@
-onlyBuiltDependencies:
-  - "@prisma/client"
-  - "@prisma/engines"
-  - esbuild
-  - prisma
-  - sharp
-  - unrs-resolver
-  - vue-demi
+allowBuilds:
+  "@prisma/client": true
+  "@prisma/engines": true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
+
+# Keep installs reproducible from the committed lockfile without waiting for
+# newly published packages to age.
+minimumReleaseAge: 0
