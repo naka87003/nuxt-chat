@@ -31,19 +31,11 @@ export async function generateChatTitle(
 ): Promise<string> {
   const response = await generateText({
     model,
-    messages: [
-      {
-        role: "system",
-        content: `You are a helpful assistant that generates 
-                  concise, descriptive titles for chat conversations.
-                  Generate a title that captures the essence of the
-                  first message in 3 short words or less.`,
-      },
-      {
-        role: "system",
-        content: firstMessage,
-      },
-    ],
+    instructions: `You are a helpful assistant that generates
+      concise, descriptive titles for chat conversations.
+      Generate a title that captures the essence of the
+      first message in 3 short words or less.`,
+    prompt: firstMessage,
   });
 
   return response.text.trim();
